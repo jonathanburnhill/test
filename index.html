@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Instatiles, Number 1 for memories</title>  
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="The UK based company printing your photos onto removable and reusble tiles order with us now">
+        <meta name=”robots” content=”index, follow”>
+
+  
+
+        <link rel="stylesheet" href="./css-min/homepage.css">
+        <link href="https://fonts.googleapis.com/css?family=Playfair+Display%7cJosefin+Sans%7cLato%7cPlayfair+Display" rel="stylesheet">
+  <style>
+  .fp-start {
+      text-align: justify;
+  }
+
+  .w-80vw {
+      width: 80vw;
+  }
+
+  .w-70vw {
+      width: 60vw;
+  }
+  </style>
+
+     
+</head>
+<body class="no-js">
+    <script>
+    document.getElementsByTagName('body')[0].classList.remove('no-js'); 
+    </script>
+ <div class="root ep-h-center">
+<header class="addClass"></header>
+
+     <section class="w-100vw w-max-width h-full h-max bg-primary">
+<div id="backgroundchange">
+    <div class="bg-image addClass" id="step-1"></div>
+    <div class="bg-image addClass" id="step-2"></div>
+    <div class="bg-image addClass" id="step-3"></div>
+    <div class="bg-image addClass" id="step-4"></div>
+</div>
+     </section>
+<article class="w-100vw v-max-width word-container ep-h-center">
+    <div class=" h-full words">
+        <span class="w-70vw ep-h-center fs-span will-hide ff-playfair g">
+            <p>
+                Repositionable tile from your photos at an amazing price. 
+                <br> 8 inch square (20 cm) 3/4 inch deep (18mm) 
+            </p>
+        </span>
+        <span class="w-70vw ep-h-center fs-span will-hide ff-playfair g">
+            <p>
+                Never any postage charges.
+                <br> 1 tile £10.
+                <br> 2 tiles £9 each. 
+                <br> 3 tiles and above £8 each.
+            </p>
+        </span>
+        <p class="is-hidden ff-playfair">
+            Repositionable tile from your photos at an amazing price. 
+            "8 inch square (20 cm) 3/4 inch deep (18mm) 
+            Never any postage charges. 1 tile £10. 2 tiles £9 each. 3 tiles and above £8 each."
+            </p>
+    </div>
+</article>
+<div class="s-m-t-20 d-block"></div>
+        <button role="navigation" class="btn-default d-block">PURCHASE HERE</button>
+
+        <div class="s-m-t-20 d-block"></div>
+ </div>
+ 
+ <script>
+        let removeWebp = document.querySelector('.bg-primary');
+        const addClass = document.querySelectorAll('.addClass');
+            async function supportsWebp() {
+              if(!self.createImageBitmap) return false;
+        
+              const webpData = 'data:image/webp;base64,UklGRjAAAABXRUJQVlA4ICQAAABwAQCdASoBAAEAAUAmJYgCdAFAAAD+7+5YHxcv9qflZ7vuAAA=';
+              const blob = await fetch(webpData).then(r => r.blob());
+              return createImageBitmap(blob).then(() => true, () => false);
+            };
+        
+              (async () => {
+                  if(await supportsWebp()) {
+                      removeWebp.classList.add('webp');
+                      addClass.forEach(e => e.classList.add('webp'));
+                  } else {
+                    removeWebp.classList.add('jpeg'); 
+                addClass.forEach(e => e.classList.add('jpeg'));                    
+             }
+              })();
+
+        </script>   
+</body>
+</html>

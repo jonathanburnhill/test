@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.3/croppie.css">
+<link rel="stylesheet" href="css/imageEditor.css">
+<link href="https://fonts.googleapis.com/css?family=Playfair+Display%7cJosefin+Sans%7cLato%7cPlayfair+Display" rel="stylesheet">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.0/css/all.css" integrity="sha384-Mmxa0mLqhmOeaE8vgOSbKacftZcsNYDjQzuCOm6D02luYSzBG8vpaOykv9lFQ51Y" crossorigin="anonymous">
+</head>
+<body class="no-js">
+    <script>
+        document.getElementsByTagName('body')[0].classList.remove('no-js'); 
+    </script>
+<div class="root">
+        <header class="addClass"></header>
+        <noscript>
+                <p>Please enable JavaScript to use this site, don't worry we are friendly and do not track users.</p>
+            </noscript>
+
+            <article class="fp-center ff-playfair w-90vw ep-center">
+                <h2>Choose your picture</h2>
+                <p>Click one of the links below to get started,
+                    you can crop images, zoom in on that one
+                    special part and add filters before ordering.
+                </p>
+            </article>
+            
+            <section class="choice-container">
+                <input type="file" id="file-picker" multiple accept="image/*" style="display: none" onchange="chooseImg()">
+                <!-- <a href="#" id="img-select" class='btn-default'>Upload a Image</a> -->
+                <button aria-label="Choose image from your computer" title="Choose image from your computer" id="img-select" class="btn-img"><i class="fas fa-upload fa-2x"></i></button>
+                <button aria-label="Choose image from your facebook account"  title="Choose image from your facebook account" class="btn-img"><i class="fab fa-facebook-f fa-2x"></i></button>
+                <button aria-label="Choose image from your instagram account" title="Choose image from your instagram account" class="btn-img"><i class="fab fa-instagram fa-2x"></i></button>
+            </section>
+        
+        <div class="modal">
+                <header class="img-header"> <button aria-label="Close" title="Close" class="to-close">X</button> </header>
+            <img src="" alt="" class='result'>
+            <button class="cancel btn-filter">cancel</button>
+            <button class="save btn-filter">add</button>
+        </div>
+
+        <div class="modal modal-filter allow-filter">
+            <header class="img-header"></header>
+            <img src="" alt="" class="filter-start" id='canvas'>
+            <div class="filter-btns">
+                    <button class="image-options ff-playfair" id='greyscale'>Greyscale</button>
+                    <button class="image-options ff-playfair" id="vintage">Vintage</button>
+                    <button class="image-options ff-playfair" id="oldboot">Old Boot</button>
+                    <button class="image-options ff-playfair" id="love">Love</button>
+                    <button class="image-options ff-playfair" id="orange-peel">Orange</button>
+                    <button class="image-options ff-playfair" id="sunrise">Sunrise</button>
+                    <button class="image-options ff-playfair" id="hazydays">Hazy</button>
+                    <button class="image-options ff-playfair" id="reset">Reset</button>
+                    <button class="back image-options ff-playfair">Crop</button>
+                    
+                </div>
+                <button class="save btn-filter buy">Buy Now</button>
+                <button class="cancel btn-filter add">Add more</button>
+        </div>
+         <section class="is-hidden change-to-address ff-playfair w-90vw ep-center">
+             <h2>Prices</h2>
+             <p class="order-num"></p>
+             <p class="price-update"></p>
+             <button class="buy-now y">Buy now</button>
+            </div>
+<div class="buy-now-form ff-playfair w-90vw ep-center">
+    <p class="fp-center ff-playfair">Sign in and then we just need your address</p>
+        <input type="email" id="txtEmail" placeholder="Enter email" /> <br/>
+        <input type="password" id="txtPassword" placeholder="Enter password" /><br/>
+        <div class="will-center">
+        <button id="btnLogin" class="">Log in</button>
+        <button id="btnSignUp" class="">Sign Up</button>
+        <button id="btnLogOut" class="hide" >Log Out</button>
+        </div>
+        <br />
+        <div class="will-center">
+         <button class="fb-login">Facebook</button>
+         <button class="insta-login">instagram</button>
+        </div>
+</div>
+            
+
+<div class="ff-playfair w-90vw fp-center ep-center address-form">
+        <input type="text" placeholder="Enter your street address">
+        <input type="text" placeholder="Enter your town">
+        <input type="text" placeholder="Enter your city">
+        <input type="text" placeholder="Enter your post code">
+        <button>Confirm</button>
+</div>
+         </section>
+        <div class="photos"></div>
+        
+</div>
+<script>
+        const addClass = document.querySelectorAll('.addClass');
+            async function supportsWebp() {
+              if(!self.createImageBitmap) return false;
+        
+              const webpData = 'data:image/webp;base64,UklGRjAAAABXRUJQVlA4ICQAAABwAQCdASoBAAEAAUAmJYgCdAFAAAD+7+5YHxcv9qflZ7vuAAA=';
+              const blob = await fetch(webpData).then(r => r.blob());
+              return createImageBitmap(blob).then(() => true, () => false);
+            };
+        
+              (async () => {
+                  if(await supportsWebp()) {
+                      addClass.forEach(e => e.classList.add('webp'));
+                  } else {
+                addClass.forEach(e => e.classList.add('jpeg'));                    
+             }
+              })();
+
+    
+    </script>
+
+<script>
+
+        
+        (function detectIE() {
+      var ua = window.navigator.userAgent;
+      var msie = ua.indexOf('MSIE ');
+      var trident = ua.indexOf('Trident/');
+      var edge = ua.indexOf('Edge/');
+      if (msie > 0) {
+        alert('Please update your browser to use this site as you may not have full functionality.');
+      }
+      else if (trident > 0) {
+        alert('Please update your browser to use this site as you may not have full functionality.');
+    
+      } 
+    
+})();
+</script>
+
+<script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.8.5/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.8.5/firebase-auth.js"></script>
+<script>
+// Initialize Firebase
+var config = {
+apiKey: "AIzaSyBgOEKGcKVJ_xVdEDPW4y-7tIri71Y0148",
+authDomain: "instatiles-cd02a.firebaseapp.com",
+databaseURL: "https://instatiles-cd02a.firebaseio.com",
+projectId: "instatiles-cd02a",
+storageBucket: "instatiles-cd02a.appspot.com",
+messagingSenderId: "139618556376"
+};
+firebase.initializeApp(config);
+</script>
+<script src="js/croppie.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/camanjs/4.1.2/caman.full.min.js"></script>
+ <script src="js-min/imageEditor-min.js"></script> 
+<!-- <script src="js/imageEditor.js"></script> -->
+
+</body>
+</html>

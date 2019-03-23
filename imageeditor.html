@@ -20,7 +20,7 @@
                 <p>Please enable JavaScript to use this site, don't worry we are friendly and do not track users.</p>
             </noscript>
 
-            <article class="fp-center ff-playfair w-90vw ep-center">
+            <article class="fp-center ff-playfair w-90vw ep-center will-be-w-70vw">
                 <h2>Choose your picture</h2>
                 <p>Click one of the links below to get started,
                     you can crop images, zoom in on that one
@@ -31,9 +31,9 @@
             <section class="choice-container">
                 <input type="file" id="file-picker" multiple accept="image/*" style="display: none" onchange="chooseImg()">
                 <!-- <a href="#" id="img-select" class='btn-default'>Upload a Image</a> -->
-                <button aria-label="Choose image from your computer" title="Choose image from your computer" id="img-select" class="btn-img"><i class="fas fa-upload fa-2x"></i></button>
-                <button aria-label="Choose image from your facebook account"  title="Choose image from your facebook account" class="btn-img"><i class="fab fa-facebook-f fa-2x"></i></button>
-                <button aria-label="Choose image from your instagram account" title="Choose image from your instagram account" class="btn-img"><i class="fab fa-instagram fa-2x"></i></button>
+                <button aria-label="Choose image from your computer" title="Choose image from your computer" id="img-select" class="btn-img btn-upload"><i class="fas fa-upload fa-2x"></i></button>
+                <button aria-label="Choose image from your facebook account"  title="Choose image from your facebook account" class="btn-img btn-fb"><i class="fab fa-facebook-f fa-2x"></i></button>
+                <button aria-label="Choose image from your instagram account" title="Choose image from your instagram account" class="btn-img btn-insta"><i class="fab fa-instagram fa-2x"></i></button>
             </section>
         
         <div class="modal">
@@ -47,6 +47,7 @@
             <header class="img-header"></header>
             <img src="" alt="" class="filter-start" id='canvas'>
             <div class="filter-btns">
+                <p style="font-style: italic">*High res picutres may take a couple of seconds to apply</p>
                     <button class="image-options ff-playfair" id='greyscale'>Greyscale</button>
                     <button class="image-options ff-playfair" id="vintage">Vintage</button>
                     <button class="image-options ff-playfair" id="oldboot">Old Boot</button>
@@ -61,7 +62,8 @@
                 <button class="save btn-filter buy">Buy Now</button>
                 <button class="cancel btn-filter add">Add more</button>
         </div>
-         <section class="is-hidden change-to-address ff-playfair w-90vw ep-center">
+        <br />
+         <section class="is-hidden fp-center change-to-address ff-playfair w-90vw ep-center">
              <h2>Prices</h2>
              <p class="order-num"></p>
              <p class="price-update"></p>
@@ -85,11 +87,16 @@
             
 
 <div class="ff-playfair w-90vw fp-center ep-center address-form">
-        <input type="text" placeholder="Enter your street address">
-        <input type="text" placeholder="Enter your town">
-        <input type="text" placeholder="Enter your city">
-        <input type="text" placeholder="Enter your post code">
-        <button>Confirm</button>
+        <h2>Just a few more details</h2>
+        <label for="name">Name</label>
+        <input id="name" type="text" placeholder="Please enter your full name" required autocomplete="name">
+        <label for="address">Address</label>
+        <input id="address" type="text" placeholder="Enter your street address" autocomplete="shipping street-address">
+        <label for="town">Town</label>
+        <input id="town" type="text" placeholder="Enter your town" autocomplete="shipping locality">
+        <label for="postal">Post code</label>
+        <input id="post" type="text" placeholder="Enter your post code" autocomplete="shipping postal-code">
+        <button class="btn-default">Confirm</button>
 </div>
          </section>
         <div class="photos"></div>

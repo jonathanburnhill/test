@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Instatiles Dashboard</title>
+    <style>
+    .result {
+        border: 2px solid black;
+        min-height: 100px;
+    }
+    </style>
+</head>
+<body>
+    <h1>hello world</h1>
+<button class="fb-login">FB Login</button>
+<button class="btn">Data</button>
+<main class="result"></main>
+
+
+    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-storage.js"></script>
+<!-- <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase.js"></script> -->
+
+<!-- <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-messaging.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-functions.js"></script> -->
+<script>
+
+</script>
+<script>
+// Initialize Firebase
+var config = {
+apiKey: "AIzaSyBgOEKGcKVJ_xVdEDPW4y-7tIri71Y0148",
+authDomain: "instatiles-cd02a.firebaseapp.com",
+databaseURL: "https://instatiles-cd02a.firebaseio.com",
+projectId: "instatiles-cd02a",
+storageBucket: "instatiles-cd02a.appspot.com",
+messagingSenderId: "139618556376"
+};
+firebase.initializeApp(config);
+
+
+const database = firebase.database().ref('customers/');
+const storage = firebase.storage();
+
+const result = document.querySelector('.result');
+var ref = firebase.database().ref();
+const res = document.querySelector('.result');
+
+document.querySelector('.fb-login').addEventListener( 'click', e=>{
+    const provider = new firebase.auth.FacebookAuthProvider();
+    const promise = firebase.auth().signInWithPopup(provider)
+    promise.then(function(result) {
+      console.log(result);
+      
+    })
+});
+
+firebase.auth().onAuthStateChanged(user => {
+    if(user) {
+        console.log(' ')
+    } else {
+    }
+});
+
+
+
+
+
+window.addEventListener('DOMContentLoaded', function() {
+    database.on('child_added', function(snapshot) {
+        
+        console.log(snapshot.val());
+        
+        const user = snapshot.val();
+        const customer = document.createElement('section');
+        customer.setAttribute('class', 'customer');
+        
+        const result = document.querySelector('.result');
+        const h1 = document.createElement('h1');
+        h1.textContent = user.name;
+        customer.appendChild(h1);
+        const p = document.createElement('p');
+        p.textContent = user.address;
+        customer.appendChild(p);
+        const town = document.createElement('p');
+        town.textContent = user.town;
+        customer.appendChild(town);
+        const postal = document.createElement('p');
+        postal.textContent = user.postcode;
+        customer.appendChild(postal);
+ 
+        let imgURL = [];
+
+
+for(i in user) {
+    // console.log(user[i].source);
+    imgURL.push(user[i].source);
+}
+
+
+let finalURL = [];
+
+let keys = Object.keys(user);
+// console.log(keys);
+
+if(user) {
+    for(let i in user) {
+        document.appendChild(user[i].source)
+    }
+}
+
+// snapshot.forEach(x => {
+//  imgURL.map(url => {
+//    if(url !== undefined) {
+//        const img = new Image();
+//     finalURL.push(new Promise((resolve, reject) => {
+//        img.onload = () => {
+//            resolve(url);
+//         }
+//         img.src = url;
+//        img.style.width = '200px';
+//        img.style.height = '200px';
+//        console.log(img.src);
+//        customer.appendChild(img);
+//     }).then(response => {
+//         console.log(response);
+//     }));
+//     return Promise.all(finalURL);
+//    }
+//  })
+
+
+// });
+
+ 
+
+// const loadImage = function(src) {
+//  imgURL.map(url => {
+//    if(url !== undefined) {
+//        const img = new Image();
+//     finalURL.push(new Promise((resolve, reject) => {
+//        img.onload = () => {
+//            resolve(url);
+//         }
+//         img.src = url;
+//        img.style.width = '200px';
+//        img.style.height = '200px';
+//        console.log(img.src);
+//        customer.appendChild(img);
+//     }).then(response => {
+//         console.log(response);
+//     }));
+//     return Promise.all(finalURL);
+//    }
+//  })
+
+// };
+
+
+result.append(customer);
+// console.log(finalURL);
+
+});
+});
+</script>
+</body>
+</html>

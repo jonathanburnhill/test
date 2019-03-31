@@ -1,4 +1,3 @@
-
     const openModal = document.querySelector('#openModal');
     const modal = document.querySelector('.modal');
     const modalFilter = document.querySelector('.modal-filter');
@@ -10,15 +9,20 @@
     const filterStart = document.querySelector('.filter-start');
     const allowFilter = document.querySelector('.allow-filter');
     const filterImg = document.querySelector('#canvas');
-    const imageOptions = document.querySelector('.image-options');
+    const imageOptions = document.querySelectorAll('.image-options');
     const add = document.querySelector('.add');
     const orderNum = document.querySelector('.order-num');
     const photos = document.querySelector('.photos');
     const buyNow = document.querySelector('.buy-now');
-
-
-    let rawImg;
+    const btnFB = document.querySelector('.btn-fb');
+    const btnAddress = document.querySelector('.btn-address');
     
+    
+    let rawImg;
+    let selectedFile;
+
+
+
     document.querySelector('.to-close').addEventListener('click', () => {
         modal.classList.remove('modal-visible');
         
@@ -35,11 +39,11 @@
     } else if(document.documentElement.clientWidth > 500 && document.documentElement.clientWidth < 600) {
         containerWidth = 500;
         viewportSize = 350;
-        modal.style.height = '700px';
+        modal.style.height = '750px';
     } else {
         containerWidth = 600;
         viewportSize = 400;
-    modal.style.height = '800px';
+    modal.style.height = '900px';
 }
 
 imgSelect.addEventListener("click", function (e) {
@@ -67,17 +71,20 @@ const chooseImg = function(input) {
                 });
             }
             
-            FR.readAsDataURL(event.target.files[0]);
+            FR.readAsDataURL(input.target.files[0]);
+            selectedFile = input.target.files[0];
+            console.log(selectedFile);
         };
         
         
-        
-        
+       
         save.addEventListener('click', function() {
             vanilla.result({
-                type: 'base64',
+                type: 'canvas',
                 format: 'jpeg',
-                size: viewportSize  
+                size: viewportSize ,
+                size: "original",
+                quality: 1
             }).then(function(response) {
                 filterStart.setAttribute('src', response);
         modal.classList.remove('modal-visible');
@@ -94,15 +101,15 @@ cancel.addEventListener('click', () => {
     modal.classList.remove('modal-visible');
 });
 
-save.addEventListener('click', event => {
-    vanilla.result({
-        type: 'base64',
-        format: 'webp',
-        type: "canvas", 
-        size: "original", 
-        quality: 1
-    });
-});
+// save.addEventListener('click', event => {
+//     vanilla.result({
+//         type: 'base64',
+//         format: 'webp',
+//         type: "canvas", 
+//         size: "original", 
+//         quality: 1
+//     });
+// });
 
 document.querySelector('.back').addEventListener('click', function(event) {
    modalFilter.classList.remove('modal-visible');
@@ -116,7 +123,6 @@ const applyFilter = id => document.querySelector(id);
 
 applyFilter('#greyscale').addEventListener('click', function(event) {
     const greyscale = document.querySelector('#greyscale');
-    greyscale.style.backgroundColor = 'orange';
     greyscale.textContent = 'Loading...';
     Caman('#canvas', img, function() {
         if(modalFilter.classList.contains('checked')) {
@@ -124,7 +130,6 @@ applyFilter('#greyscale').addEventListener('click', function(event) {
             this.revert(false);
             this.render();
             this.greyscale().render();
-            greyscale.style.backgroundColor = '#f70d0e';
             }else if(modalFilter.classList.contains('allow-filter')) {
                 this.greyscale().render();
                 modalFilter.classList.remove('allow-filter');
@@ -142,7 +147,6 @@ applyFilter('#greyscale').addEventListener('click', function(event) {
 
     applyFilter('#vintage').addEventListener('click', function() {
         const vintage = document.querySelector('#vintage');
-    vintage.style.backgroundColor = 'orange';
     vintage.textContent = 'Loading...';
     Caman('#canvas', img, function() {
         if(modalFilter.classList.contains('checked')) {
@@ -150,7 +154,6 @@ applyFilter('#greyscale').addEventListener('click', function(event) {
             this.revert(false);
             this.render();
             this.vintage().render();
-            vintage.style.backgroundColor = '#f70d0e';
             }else if(modalFilter.classList.contains('allow-filter')) {
                 this.vintage().render();
                 modalFilter.classList.remove('allow-filter');
@@ -167,7 +170,6 @@ applyFilter('#greyscale').addEventListener('click', function(event) {
 
     applyFilter('#oldboot').addEventListener('click', function(event) {
         const oldboot = document.querySelector('#oldboot');
-        oldboot.style.backgroundColor = 'orange';
         oldboot.textContent = 'Loading...';
         Caman('#canvas', img, function() {
             if(modalFilter.classList.contains('checked')) {
@@ -191,7 +193,6 @@ applyFilter('#greyscale').addEventListener('click', function(event) {
 
     applyFilter('#orange-peel').addEventListener('click', function() {
         const orange = document.querySelector('#orange-peel');
-    orange.style.backgroundColor = 'orange';
     orange.textContent = 'Loading...';
     Caman('#canvas', img, function() {
         if(modalFilter.classList.contains('checked')) {
@@ -216,7 +217,6 @@ applyFilter('#greyscale').addEventListener('click', function(event) {
     
     applyFilter('#love').addEventListener('click', function() {
         const love = document.querySelector('#love');
-        love.style.backgroundColor = 'orange';
         love.textContent = 'Loading...';
         Caman('#canvas', img, function() {
             if(modalFilter.classList.contains('checked')) {
@@ -242,7 +242,6 @@ applyFilter('#greyscale').addEventListener('click', function(event) {
 
     applyFilter('#sunrise').addEventListener('click', function() {
         const sunrise = document.querySelector('#sunrise');
-    sunrise.style.backgroundColor = 'orange';
     sunrise.textContent = 'Loading...';
     Caman('#canvas', img, function() {
         if(modalFilter.classList.contains('checked')) {
@@ -268,7 +267,6 @@ applyFilter('#greyscale').addEventListener('click', function(event) {
 
     applyFilter('#hazydays').addEventListener('click', function() {
         const hazydays = document.querySelector('#hazydays');
-        hazydays.style.backgroundColor = 'orange';
         hazydays.textContent = 'Loading...';
         Caman('#canvas', img, function() {
             if(modalFilter.classList.contains('checked')) {
@@ -302,6 +300,8 @@ applyFilter('#greyscale').addEventListener('click', function(event) {
     const priceUpdate = document.querySelector('.price-update');
     priceUpdate.innerHTML = 0;
     let val = 0;
+
+
 document.querySelector('.add').addEventListener('click', function() {
 Caman('#canvas', img, function(){
     const img = new Image();
@@ -321,9 +321,14 @@ Caman('#canvas', img, function(){
     vanilla.bind({
         url: ''
     });
+
+    console.log(selectedFile);
     //    FR.readAsDataURL(event.target.files[0]);
 });
 
+});
+
+// imageOptions.forEach(button => button.addEventListener('click',() => button.classList.toggle('allow')));
 
 // document.querySelectorAll('.result-position').forEach(function() {
 //      val += 1;
@@ -342,7 +347,7 @@ if(val < 2 && val > 0) {
      priceUpdate.innerHTML = `£${Math.floor((val * 0.8) * 10)}`;
  }
  console.log(val);
-});
+// });
     
 const fbLogin = function() {
    const button = document.createElement('button');
@@ -353,7 +358,14 @@ const fbLogin = function() {
 
 buyNow.addEventListener('click', function() {
  document.querySelector('.is-hidden').style.display = 'none';
- document.querySelector('.buy-now-form').style.display = 'block'
+ firebase.auth().onAuthStateChanged(user => {
+     if(user) {
+        document.querySelector('.address-form').style.display = 'block';
+
+    } else {
+        document.querySelector('.buy-now-form').style.display = 'block'
+     }
+ });
 });
 
 Caman('#canvas', img, function() {
@@ -408,3 +420,121 @@ document.querySelector('#btnLogOut').addEventListener('click', event => {
     console.log('logged out');
 });
 
+
+
+const sendOrderAddress = document.getElementsByClassName('user-input');
+
+let newOrder = {};
+
+btnAddress.addEventListener('click', function() {
+    // let timeStamp = Math.round(new Date().getTime()/1000);
+    let name = document.querySelector('#name').value;
+    let imgUrl = document.querySelectorAll('.result-position');
+    let imgUrlList = [];
+    const storageRef = storage.ref();
+
+    let newImg;
+    let count = 0;
+    let finalDBEntry;
+
+    // imgUrl.forEach(function(img) {
+    //    count += 1;
+    //     let findSrc = img.getAttribute('src');
+    //     newImg = findSrc.substring(22);
+        
+    //     storageRef.child(`${name}/${count}/${timeStamp}`)
+    //     .putString(`${newImg}`, 'base64', { contentType: 'image/jpeg' })
+    //     .then(() => {
+    //         storageRef.child(`${name}/${count}/${timeStamp}`).getDownloadURL().then(function(url) {
+    //             imgUrlList.push({source: url});
+    //             for(let i = 0, len = sendOrderAddress.length; i < len; i++) {
+    //                 let key = sendOrderAddress[i].getAttribute('data-key');
+    //                 let value = sendOrderAddress[i].value;
+    //                 newOrder[key] = value;
+    //             }
+     
+    //             if(imgUrlList.length === imgUrl.length) {
+    //                 finalDBEntry = Object.assign({}, newOrder, imgUrlList);
+                    
+    //                 database.push(finalDBEntry, function(){
+    //                     console.log('data has been inserted :)')
+    //                 });
+    //             }
+                
+    //         })
+    //     });
+    // }); 
+let strUrl = [];
+    imgUrl.forEach(function(img) {
+        count + 1;
+         let findSrc = img.getAttribute('src');
+         newImg = findSrc.substring(22);
+         strUrl.push(newImg);
+         console.log(strUrl);
+         strUrl.forEach(() => {
+            let timeStamp = Math.round(new Date().getTime()/ Math.floor(Math.random() * 20));
+            storageRef.child(`${name}/${timeStamp}`)
+            .putString(`${newImg}`, 'base64', { contentType: 'image/jpeg' })
+            .then((response) => {
+                console.log(strUrl);
+                storageRef.child(`${name}/${timeStamp}`).getDownloadURL().then(function(url) {
+                    console.log(url);
+                    imgUrlList.push({time: timeStamp, source: url});
+                    console.log(imgUrlList);
+                    // console.log(imgUrlList);
+                    for(let i = 0, len = sendOrderAddress.length; i < len; i++) {
+                        let key = sendOrderAddress[i].getAttribute('data-key');
+                        let value = sendOrderAddress[i].value;
+                        newOrder[key] = value;
+                    }
+         
+                    if(imgUrlList.length === imgUrl.length) {
+                        finalDBEntry = Object.assign({}, newOrder, imgUrlList);
+                           console.log(finalDBEntry);
+                        
+                        database.push(finalDBEntry, function(){
+                            console.log('data has been inserted :)')
+                        });
+                    }
+                    
+                });
+            });
+         })
+         
+     }); 
+ 
+});
+
+
+
+
+
+// let fbAlbumsPhotosObj = {};
+
+// btnFB.addEventListener( 'click', e => {
+//     const provider = new firebase.auth.FacebookAuthProvider();
+//     const promise = firebase.auth().signInWithPopup(provider)
+//     promise.then(function(result) {
+//         FB.api('/me?fields=albums.limit(5){name,count,cover_photo{picture},photos.limit(10){picture,images}}', response => {
+//             console.log(response);
+
+//             const res = response.albums.data.map(x => x.photos.data[0].images[0].source);
+//             res.forEach(el => {
+//                 const image = new Image();
+//                 image.style.width = "400px";
+//                 image.style.height = "400px";
+//                 image.src = el;
+//                 photos.appendChild(image);
+//             })
+//             console.log(res);
+
+//             let fbAlbumsPhotosObj = {}
+//             fbAlbumsPhotosObj = response.albums;
+//             console.log(fbAlbumsPhotosObj.data.map(x => x.photos.data[0].images[0].source));
+           
+//           });
+//     });
+    
+// });
+
+//    document.body.innerHTML = `<img src="${response.albums.data[0].photos.data[0].images[0].source}" style="width: 400px; height: 400px">`;

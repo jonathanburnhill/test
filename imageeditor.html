@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Welcome to Instatiles</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.3/croppie.css">
 <link rel="stylesheet" href="css/imageEditor.css">
 <link href="https://fonts.googleapis.com/css?family=Playfair+Display%7cJosefin+Sans%7cLato%7cPlayfair+Display" rel="stylesheet">
@@ -19,35 +19,40 @@
         <noscript>
                 <p>Please enable JavaScript to use this site, don't worry we are friendly and do not track users.</p>
             </noscript>
+            <button id="btnLogOut" class="btn-login logout" >Log Out</button>
 
             <article class="fp-center ff-playfair w-90vw ep-center will-be-w-70vw">
                 <h2>Choose your picture</h2>
-                <p>Click one of the links below to get started,
+                <p class="fp-center w-60vw">Click one of the links below to get started,
                     you can crop images, zoom in on that one
                     special part and add filters before ordering.
                 </p>
             </article>
             
             <section class="choice-container">
-                <input type="file" id="file-picker" multiple accept="image/*" style="display: none" onchange="chooseImg()">
+                <input type="file" id="file-picker" multiple accept="image/*" style="display: none" onChange="chooseImg()">
                 <!-- <a href="#" id="img-select" class='btn-default'>Upload a Image</a> -->
                 <button aria-label="Choose image from your computer" title="Choose image from your computer" id="img-select" class="btn-img btn-upload"><i class="fas fa-upload fa-2x"></i></button>
-                <button aria-label="Choose image from your facebook account"  title="Choose image from your facebook account" class="btn-img btn-fb"><i class="fab fa-facebook-f fa-2x"></i></button>
-                <button aria-label="Choose image from your instagram account" title="Choose image from your instagram account" class="btn-img btn-insta"><i class="fab fa-instagram fa-2x"></i></button>
+                <button aria-label="Choose image from your facebook account"  title="Choose image from your facebook account" class="btn-img btn-fb support"><i class="fab fa-facebook-f fa-2x"></i></button>
+                <button aria-label="Choose image from your instagram account" title="Choose image from your instagram account" class="btn-img btn-insta support"><i class="fab fa-instagram fa-2x"></i></button>
             </section>
         
-        <div class="modal">
+        <div class="modal" style="z-index:999;">
                 <header class="img-header"> <button aria-label="Close" title="Close" class="to-close">X</button> </header>
             <img src="" alt="" class='result'>
-            <button class="cancel btn-filter">cancel</button>
-            <button class="save btn-filter">add</button>
+            <div class="filer-btn-container">
+              <button class="cancel btn-filter">cancel</button>
+              <button class="save btn-filter">add</button>
+            </div>
         </div>
 
-        <div class="modal modal-filter allow-filter">
+        <div class="modal modal-filter allow-filter" style="z-index:999; ">
             <header class="img-header"></header>
             <img src="" alt="" class="filter-start" id='canvas'>
+            <br />
+			<button class=" btn-filter add">next</button>
+      <p style="font-style: italic">*High res picutres may take a couple of seconds to apply</p>
             <div class="filter-btns">
-                <p style="font-style: italic">*High res picutres may take a couple of seconds to apply</p>
                     <button class="image-options ff-playfair" id='greyscale'>Greyscale</button>
                     <button class="image-options ff-playfair" id="vintage">Vintage</button>
                     <button class="image-options ff-playfair" id="oldboot">Old Boot</button>
@@ -59,48 +64,83 @@
                     <button class="back image-options ff-playfair">Crop</button>
                     
                 </div>
-                <button class="save btn-filter buy">Buy Now</button>
-                <button class="cancel btn-filter add">Add more</button>
+               <!-- <button class="save btn-filter buy "   > <span class="price-update"></span> Buy Now</button>-->
+                 
+                <!-- <div class="textInput">
+                    <input type="text" maxlength="100" class="addText">
+                    <button class="applyText">Add Text</button>
+                    <button class="firstStep">First Step</button>
+                    <p class="firstStepP"></p>
+                </div> -->
+                
+                <!--<div class="photos">asdfa</div>-->
+               
         </div>
+        <section class="imgEdit">
+          <img src="" alt="" class="textEdit">
+         <input type="text" minlength="1" class="interactValue">
+        </section>
         <br />
          <section class="is-hidden fp-center change-to-address ff-playfair w-90vw ep-center">
-             <h2>Prices</h2>
+             <!-- <h2>Prices</h2>
              <p class="order-num"></p>
-             <p class="price-update"></p>
-             <button class="buy-now y">Buy now</button>
-            </div>
+             <p class="price-update" style="display:none;"></p>
+             <p class="price-update3"></p>
+			 <button class="buy-now y" style="display:none;">Buy now</button> -->
+			 
+
+
+            <!--   <button class="buy-now y">Buy now</button>
+ 			<div id="paypal-button-container" class="  " onmouseenter="calculateval2()" style="  margin: 0 auto; width: 20%;"></div>-->
+			
 <div class="buy-now-form ff-playfair w-90vw ep-center">
     <p class="fp-center ff-playfair">Sign in and then we just need your address</p>
-        <input type="email" id="txtEmail" placeholder="Enter email" /> <br/>
-        <input type="password" id="txtPassword" placeholder="Enter password" /><br/>
+        <input type="email" id="txtEmail" placeholder=" Enter email" /> <br/>
+        <input type="password" id="txtPassword" minlength=6 placeholder=" Enter password" /><br/>
         <div class="will-center">
-        <button id="btnLogin" class="">Log in</button>
-        <button id="btnSignUp" class="">Sign Up</button>
-        <button id="btnLogOut" class="hide" >Log Out</button>
-        </div>
-        <br />
-        <div class="will-center">
-         <button class="fb-login">Facebook</button>
-         <button class="insta-login">instagram</button>
-        </div>
-</div>
+        <button id="btnLogin" class="btn-login">Log in</button>
+        <button id="btnSignUp" class="btn-login">Sign Up</button>
+      </div>
+      <br />
+      <!-- <div class="will-center">
+        <button class="fb-login btn-fb"><i class="fab fa-facebook-f fa-2x"></i></button>
+        <button class="insta-login btn-insta"><i class="fab fa-instagram fa-2x"></i></button>
+      </div> -->
+    </div>
             
-
-<div class="ff-playfair w-90vw fp-center ep-center address-form">
-        <h2>Just a few more details</h2>
-        <label for="name">Name</label>
-        <input id="name" type="text" placeholder="Please enter your full name" required autocomplete="name">
-        <label for="address">Address</label>
-        <input id="address" type="text" placeholder="Enter your street address" autocomplete="shipping street-address">
-        <label for="town">Town</label>
-        <input id="town" type="text" placeholder="Enter your town" autocomplete="shipping locality">
-        <label for="postal">Post code</label>
-        <input id="post" type="text" placeholder="Enter your post code" autocomplete="shipping postal-code">
-        <button class="btn-default">Confirm</button>
+<div class="ff-playfair fp-center btn-address ep-center address-form">
+  <!-- <h2>Just a few details</h2>
+  <form  method="post" name = "myForm" onsubmit = "return(validate());"  style="display: inline-grid; ">
+    <label for="name">Name</label>
+    <input id="name" name = "Name" type="text" placeholder="Please enter your full name" autocomplete="name">
+    <label for="address">Address</label>
+    <input id="address" name = "Address" type="text" placeholder="Enter your street address" autocomplete="shipping street-address">
+    <label for="town">Town</label>
+    <input id="town" name = "Town" type="text" placeholder="Enter your town" autocomplete="shipping locality">
+    <label for="postal">Post code</label>
+    <input id="post" name="Zip" type="text" placeholder="Enter your post code" autocomplete="shipping postal-code">
+    <!--<button class="btn-default btn-address">Confirm</button>-->
+  </form> -->
 </div>
+<button class="btn-default btn-confirm"  onClick="calculateval2()" >Confirm</button> 
+<!-- <span class="price-update2">0.00</span> -->
+
+<div id="paypal-button-container" class="  "  onmouseenter="calculateval2()" style="  margin: 0 auto; width: 20%;">
+  <h2 class=" basket">Prices</h2>
+  <p class="order-num basket"></p>
+  <p class="price-update basket" style="display:none;"></p>
+  <p class="price-update3 basket"></p>
+  <button class="buy-now y" style="display:none;">Buy now</button>	  
+</div>
+            </div>
+
          </section>
         <div class="photos"></div>
-        
+
+        <!-- <div class="spinner hide-spinner">
+          <div class="dot1"></div>
+          <div class="dot2"></div>
+        </div>       -->
 </div>
 <script>
         const addClass = document.querySelectorAll('.addClass');
@@ -142,12 +182,14 @@
 })();
 </script>
 
-<script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
 <script src="https://www.gstatic.com/firebasejs/5.8.5/firebase-app.js"></script>
+<!-- <script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script> -->
 <script src="https://www.gstatic.com/firebasejs/5.8.5/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.8.5/firebase-storage.js"></script>
+
 <script>
-// Initialize Firebase
-var config = {
+  // Initialize Firebase  
+  var config = {
 apiKey: "AIzaSyBgOEKGcKVJ_xVdEDPW4y-7tIri71Y0148",
 authDomain: "instatiles-cd02a.firebaseapp.com",
 databaseURL: "https://instatiles-cd02a.firebaseio.com",
@@ -155,13 +197,30 @@ projectId: "instatiles-cd02a",
 storageBucket: "instatiles-cd02a.appspot.com",
 messagingSenderId: "139618556376"
 };
-firebase.initializeApp(config);
+  firebase.initializeApp(config);
 </script>
 <script src="js/croppie.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/camanjs/4.1.2/caman.full.min.js"></script>
- <script src="js/imageEditor.js"></script> 
-<!-- <script src="js/imageEditor.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/interactjs@next/dist/interact.min.js"></script>
+<!-- <script src="js/imageEditor-min.js"></script>  -->
+
+
+
+<script src="https://www.paypal.com/sdk/js?client-id=AXsHiQYaRP17TEF5oduOGtaCUbi2YjVZndN3PmpZ2HnUOyxKt_ii56pQNdM6iqwzc0CJh75soTuJiZep&merchant-id=PEHHMUMMDSEDY&currency=GBP"></script>
+<!-- <script src="https://www.paypal.com/sdk/js?client-id=AQ2NJnF1AWJ8P2f6EMDqcgSlaFvB2MZ2F04DpOTQMXXKFSES6lNufCtNoBWHXzkKENwfZm2O9CWJTSAT&currency=GBP"></script> -->
+
+<script src="https://www.gstatic.com/firebasejs/5.8.5/firebase-firestore.js"></script>
+<script src="js/payauth.js"></script> 
+<script src="js/imageEditor.js"></script>
+
+ <script>
+ document.querySelectorAll('.support').forEach(el => {
+     el.addEventListener('click', function() {
+          alert('Support for Instagram and Facebook will be added shortly');
+     });
+ });
+ </script>
 
 </body>
 </html>

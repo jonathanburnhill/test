@@ -2,24 +2,216 @@
 <html>
 <head>
     <title>Instatiles Dashboard</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
     <style>
+     html, body {
+         margin: 0;
+         padding: 0;
+         width: 100vw;
+         max-width:100vw;
+         min-height: 100%;
+     }
+
+    header {
+        background-image: url('../img/logo-desktop.webp');
+    }
+
+    section {
+        border: 2px solid #f70d0e;
+    }
+
+    button {
+        text-transform: uppercase;
+    }
+
+    tr:nth-child(even) {background: #dedede}
+
+    td:hover {
+        background-color: #f70d0e;
+    }
+
     .result {
         border: 2px solid black;
         min-height: 100px;
     }
+
+    .print-address {
+        display: none;
+        width: 300px;
+        height: 300px;
+        position: absolute;
+        top: 50%;
+        left: 30%;
+        transform: translateY(-50%);
+        transform: translateX(-50);
+        z-index: 100;
+        background-color: white;
+    }
+
+    .print-address-btn {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        background-color: #f70d0e;
+
+    }
+
+    .close-address {
+        position: absolute;
+        bottom: 10px;
+        right: 5px;
+        background-color: #f70d0e;
+
+    }
+
+    .btn-height{
+        height: 40px;
+        animation: pulse 1s infinite;
+        color: white;
+    }
+
+    .print-photos {
+        display: none;
+    width: 100%;
+    min-height: 100%;
+    position: absolute;
+    top: 20px;
+    left: 25vw;
+    z-index: 100;
+    background-color: white;
+    border: none;
+    overflow: none;
+    }
+
+    .print-photos > img {
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 50px;
+        width: 9in;
+        height: 9in;
+    }
+
+    .thumbnail {
+        width: 50px;
+        height: 50px;
+    }
+
+    .images > img {
+        max-width: 50px;
+        max-height: 50px;
+    }
+
+    .print-photos-btn {
+    top: 10px;
+    left: 10px;
+    width: 120;
+    height: 100px;
+    background-color: #f70d0e;
+    border: none;
+    color: white;
+    border-radius: 5%;
+    position: fixed;
+    }
+
+    .print-photos-finished {
+        background-color: #f70d0e;
+    border: none;
+    color: white;
+    border-radius: 5%;
+    position: fixed;
+    top: 140px; 
+    left: 10px
+    }
+
+    .pulse {
+        animation: pulse 1s infinite;
+
+    }
+
+    .btn-hide {
+        display: none;
+        
+    }
+
+    .photo-hide {
+        display: none;
+    }
+
+    @keyframes pulse {
+        0%{
+            background-color: #f70d0e;
+        }
+        50% {
+            background-color: #e00f0f;
+        }
+        100% {
+            background-color: #f70d0e;
+        }
+    }
+
+    @media print {
+        @page {
+            height: 100vh;
+            overflow: hidden;
+            margin: 0;
+            margin-top: 0.2in;
+            padding: 0;
+            size: 9in 9in;
+        }
+        img {
+            display: block;
+            margin: auto;
+            width: 8.25in;
+            height: 8.25in;
+        }
+    }
     </style>
 </head>
 <body>
-    <h1>hello world</h1>
-<button class="fb-login">FB Login</button>
-<button class="btn">Data</button>
-<main class="result"></main>
+    <header></header>
+    <br />
+    <br />
+            <button class="print-photos-btn btn-hide pulse" onclick="printPhotos()">Print Photos</button>
+        <a href ='' class="print-photos-finished photo-hide" onclick="closePhotos()">Finished</a>
+<section>
+<div class="result">
+	<table class="table table-bordered table-hover"> 
+		<thead >
+			<tr>
+				<th>Customer</th>
+				<th>Customer Address</th>
+				<th>Image Count</th>
+				<th>#Images</th>
+				<th>Total Amount</th>
+				<th>Payment Status</th>
+			</tr>
+		</thead>
+		<tbody class="resulttable">
+			
+		</tbody>
+	</table>
+</div>
 
+</section>
+<section class="print-address">
+    <button class="print-address-btn btn-height" onclick="printAddress()">Print Address</button>
+    <button class="close-address" onclick="closeAddress()">Finished</button>
+</section>
+
+
+    
+
+<section class="print-photos">
+</section>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-database.js"></script>
 <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-storage.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.8.5/firebase-firestore.js"></script>
 <!-- <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase.js"></script> -->
 
 <!-- <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-auth.js"></script>
@@ -31,8 +223,8 @@
 
 </script>
 <script>
-// Initialize Firebase
-var config = {
+  // Initialize Firebase  
+  var config = {
 apiKey: "AIzaSyBgOEKGcKVJ_xVdEDPW4y-7tIri71Y0148",
 authDomain: "instatiles-cd02a.firebaseapp.com",
 databaseURL: "https://instatiles-cd02a.firebaseio.com",
@@ -40,16 +232,80 @@ projectId: "instatiles-cd02a",
 storageBucket: "instatiles-cd02a.appspot.com",
 messagingSenderId: "139618556376"
 };
-firebase.initializeApp(config);
+  firebase.initializeApp(config);
+let imgSize = {
+    width: '50px',
+    height: '50px'
+}
 
+const database = firebase.database();
 
-const database = firebase.database().ref('customers/');
+let nameVal;
+
+var db=firebase.firestore();
+var Ref = db.collection('tranasactions');
+var query = Ref.get().then(doc => {			
+	
+	var promises = []; var DataSet;
+	if(doc.size > 0){				
+		doc.forEach(docs =>  {
+			//rowsall 
+			DataSet = {} ;  
+			DataSet= docs.data();		
+			promises.push(DataSet);
+		});
+	}		
+	return Promise.all(promises);			
+	
+}).then(Resp => {
+	console.log('Resp',Resp)
+	
+	
+	$(function() {
+	    var trHTML = '';
+
+		$.each(Resp, function(i, item) {
+		var ImageList = '';
+		var FullAddress = ' - ';
+		
+			console.log('item',item,'i',i)
+			$.each(item.imgUrlList, function(ii, img) {
+				//console.log('img',img,'ii',ii)
+                // ImageList+='<img src="'+img.source+'" height="50px" width="50px"/> &nbsp;';
+                ImageList+='<img src="'+img.source+'"/> &nbsp;';
+			});
+			
+			if(item.Username !== undefined){			
+                // FullAddress = ''+ item.Username +' <br> '+  item.UserAddress + ' <br> '+ item.UserTown +' <br> '+  item.UserPostcode + '';
+                FullAddress = ''+ item.payer.paypalresponse.name.given_name +' <br> '+  item.payer.address.address_line_1 + ' <br> '+ item.payer.admin_Area +' <br> '+  item.payer.address.postal_code + '';
+
+			}
+			
+			trHTML += '<tr><td>' + item.paypalresponse.payer.email_address + ' <br>'+ item.paypalresponse.payer.name.given_name +'<br>'+ item.paypalresponse.payer.email_address +'<br>Ph: '+ item.paypalresponse.payer.phone.phone_number.national_number +' ('+ item.paypalresponse.payer.address.country_code +')</td><td class="address" onclick=getAddress(this.textContent);>  '+FullAddress+' </td><td>' + item.itemList.length + '</td><td class="images" onclick=showImages(this.innerHTML)>' + ImageList + '</td> <td> ' + item.paypalresponse.purchase_units[0].amount.value + '</td> <td> Paypal status: ' + item.paypalresponse.status + '</td></tr>';
+			// trHTML += '<tr><td>' + item.paypalresponse.payer.email_address + ' <br>'+ item.paypalresponse.payer.name.given_name +'<br>'+ item.paypalresponse.payer.email_address +'<br>Ph: '+ item.paypalresponse.payer.phone.phone_number.national_number +' ('+ item.paypalresponse.payer.address.country_code +')</td><td class="address" onclick=getAddress(this.textContent);>  '+FullAddress+' </td><td>' + item.itemList.length + '</td><td class="images" onclick=showImages(this.innerHTML)>' + ImageList + '</td> <td> ' + item.paypalresponse.purchase_units[0].amount.value + '</td> <td> Paypal status: ' + item.paypalresponse.status + '</td></tr>';
+
+			
+            //console.log($tr.wrap('<p>').html());
+                nameVal = FullAddress.value;
+               
+		});
+		
+		    $('.resulttable').append(trHTML);
+
+	});
+	
+	
+}).catch(err => {
+	console.log('err', err)
+});		
+
+//console.log('AllTransactions',AllTransactions)
 const storage = firebase.storage();
 
 const result = document.querySelector('.result');
 var ref = firebase.database().ref();
 const res = document.querySelector('.result');
-
+/*
 document.querySelector('.fb-login').addEventListener( 'click', e=>{
     const provider = new firebase.auth.FacebookAuthProvider();
     const promise = firebase.auth().signInWithPopup(provider)
@@ -58,114 +314,115 @@ document.querySelector('.fb-login').addEventListener( 'click', e=>{
       
     })
 });
-
+*/
 firebase.auth().onAuthStateChanged(user => {
     if(user) {
-        console.log(' ')
+        console.log(' user available ')
     } else {
     }
 });
 
+let address = document.querySelectorAll('.address');
 
 
+let newElement = (el) => document.createElement(el);
+let squareSize = (el, style) => {
+     el.style.width = style;
+     el.style.height = style;
+};
 
+let centerText = el => {
+    el.style.textAlign = 'center';
+};
 
-window.addEventListener('DOMContentLoaded', function() {
-    database.on('child_added', function(snapshot) {
-        
-        console.log(snapshot.val());
-        
-        const user = snapshot.val();
-        const customer = document.createElement('section');
-        customer.setAttribute('class', 'customer');
-        
-        const result = document.querySelector('.result');
-        const h1 = document.createElement('h1');
-        h1.textContent = user.name;
-        customer.appendChild(h1);
-        const p = document.createElement('p');
-        p.textContent = user.address;
-        customer.appendChild(p);
-        const town = document.createElement('p');
-        town.textContent = user.town;
-        customer.appendChild(town);
-        const postal = document.createElement('p');
-        postal.textContent = user.postcode;
-        customer.appendChild(postal);
- 
-        let imgURL = [];
+let centerElement = (el) => {
+    el.style.margin = 'auto';
+};
 
-
-for(i in user) {
-    // console.log(user[i].source);
-    imgURL.push(user[i].source);
-}
-
-
-let finalURL = [];
-
-let keys = Object.keys(user);
-// console.log(keys);
-
-if(user) {
-    for(let i in user) {
-        document.appendChild(user[i].source)
+function getAddress(e) {
+    let section = document.querySelector('.print-address');
+    document.querySelector('print-photo')
+    section.style.display = 'block';
+    let p = newElement('p');
+    p.setAttribute('class', 'ad')
+    let newValue = e.split('  ');
+    for(let i = 0; i < newValue.length; i++) {
+        newValue[i] = `${newValue[i]} <br />`;
     }
+    p.innerHTML = newValue.join('');
+    centerText(p);
+    p.style.fontSize = '24px';
+    section.appendChild(p);
+};
+
+let ad = document.querySelectorAll('.ad');
+
+const printAddress = () => {
+   let printAdd = document.querySelector('.print-address');
+   let printContents = printAdd.innerHTML;
+   let originalContents = document.body.innerHTML;
+   document.body.innerHTML = printContents;
+   window.print();
+   document.body.innerHTML = originalContents;
+      ad.forEach(x => x.textContent = '');
+      printAdd.textContent = '';
+      document.querySelector('.print-address-btn').classList.remove('btn-height');
+      document.querySelector('.close-address').classList.add('btn-height');
 }
 
-// snapshot.forEach(x => {
-//  imgURL.map(url => {
-//    if(url !== undefined) {
-//        const img = new Image();
-//     finalURL.push(new Promise((resolve, reject) => {
-//        img.onload = () => {
-//            resolve(url);
-//         }
-//         img.src = url;
-//        img.style.width = '200px';
-//        img.style.height = '200px';
-//        console.log(img.src);
-//        customer.appendChild(img);
-//     }).then(response => {
-//         console.log(response);
-//     }));
-//     return Promise.all(finalURL);
-//    }
-//  })
 
 
-// });
 
- 
+const closeAddress = () => {
+    let printAdd = document.querySelectorAll('.print-address p');
+    let section = document.querySelector('.print-address');
+    //  printAdd.textContent = '';
+    printAdd.forEach(x => x.textContent = '');
+    section.style.display = 'none';
+    document.querySelector('.close-address').classList.remove('btn-height');
+    document.querySelector('.print-address-btn').classList.add('btn-height');
 
-// const loadImage = function(src) {
-//  imgURL.map(url => {
-//    if(url !== undefined) {
-//        const img = new Image();
-//     finalURL.push(new Promise((resolve, reject) => {
-//        img.onload = () => {
-//            resolve(url);
-//         }
-//         img.src = url;
-//        img.style.width = '200px';
-//        img.style.height = '200px';
-//        console.log(img.src);
-//        customer.appendChild(img);
-//     }).then(response => {
-//         console.log(response);
-//     }));
-//     return Promise.all(finalURL);
-//    }
-//  })
+}
 
-// };
+const showImages = (x) => {
+    let photoAdd = document.querySelector('.print-photos');
+    document.querySelector('.print-photos-btn').style.display = 'block';
+    photoAdd.style.display = 'block';
+        let a = document.createElement('a');
+    let imgArray = [];
+    imgArray.push(x);
+    console.log(imgArray);
+    imgArray.map(el => {
+        // `<img src = ${el.src} class="photo-result" > <br />`;
+        let image = new Image();
+        image.src = el.src;
+        // let downlodName = el.src.subString(0,11) + '.png';
+        // a.href = el.src;
+        // a.download = downlodName;
+        // a.appendChild(image);
+        // a.click();
+    });
+ photoAdd.innerHTML = imgArray;
+}
+
+const printPhotos = () => {
+    let photoAdd = document.querySelector('.print-photos');
+    let imgSrc = document.querySelector('.print-photos img');
+    console.log(imgSrc.src);
+    let printContents = photoAdd.innerHTML;
+    let originalContents = document.body.innerHTML;
+    document.body.innerHTML = printContents;
+    // window.print();
+    photoAdd.setAttribute('download', `${imgSrc.src}.jpg`);
+
+    printPhotos.setAttribute('download', printContents);
+    document.body.innerHTML = originalContents;
+};
 
 
-result.append(customer);
-// console.log(finalURL);
-
-});
-});
+const closePhotos = () => {
+    
+};
 </script>
 </body>
 </html>
